@@ -37,25 +37,8 @@
 
 
 </head><body>
-    <!-- Page header -->
-    <header class="flex center one two-600 three-800">
-    <div class="none sixth-800"></div>
-    <div>
-        <a class="centered uppercase" target="_blank" href="https://finmango.org" style="display: block; padding: 0;">
-            <img class="centered" src="../../static/logo.png" height="128" width="auto">
-        </a>
-    </div>
-    <div>
-        <h1 class="centered uppercase">🔥 FIRE Calculator</h1>
-    </div>
-    <div class="none sixth-800"></div>
-</header>
-
-    <main class="single-column-wide" style="margin-top: auto; margin-bottom: auto;">
-
-        <div class="spacer"></div>
-
-        <div id="fire-survey">
+    <!-- Main element -->
+    <div id="fire-survey">
     <style>.animated{transition:all .5s ease-in-out}.screen{height:0;opacity:0;overflow:hidden}.screen-visible{height:auto;opacity:1;overflow:initial}</style>
 
     <div class="screen animated" id="how-much-owed">
@@ -205,13 +188,8 @@
         </div>
     </div>
 
-    <script async>!async function(){const e=document.currentScript.parentElement;let c=0;const s=[].slice.call(e.querySelectorAll("div.screen"),0,-1);e.querySelector("#next").addEventListener("click",l=>{if(c+1<s.length){const e=s[c],l=s[c+1];e.classList.remove("screen-visible"),l.classList.add("screen-visible"),c++}else{const c=[].slice.call(e.querySelectorAll("input, select")),s=window.location.pathname.includes("/embed/")?"./embed/chart/":"./view/chart/",l=new URL(s,window.location.href);c.forEach(e=>{l.searchParams.set(e.id,e.value)}),window.location=l}}),e.querySelector("#how-much-owed").classList.add("screen-visible"),e.querySelector("#nav").classList.add("screen-visible")}();</script>
+    <script async>!async function(){const e=document.currentScript.parentElement;let c=0;const s=[].slice.call(e.querySelectorAll("div.screen"),0,-1);e.querySelector("#next").addEventListener("click",l=>{if(c+1<s.length){const e=s[c],l=s[c+1];e.classList.remove("screen-visible"),l.classList.add("screen-visible"),c++}else{const c=[].slice.call(e.querySelectorAll("input, select")),s=window.location.pathname.includes("/embed/")?"../../embed/chart/":"../../view/chart/",l=new URL(s,window.location.href);c.forEach(e=>{l.searchParams.set(e.id,e.value)}),window.location=l}}),e.querySelector("#how-much-owed").classList.add("screen-visible"),e.querySelector("#nav").classList.add("screen-visible")}();</script>
 </div>
-
-        <!-- Add some whitespace to the bottom -->
-        <div class="spacer"></div>
-        <div class="spacer"></div>
-    </main>
 
     <!-- Load analytics at the end of the page -->
     <!-- <script src="../../components/analytics.tpl.html" data-include data-vars='{"root": "../.."}'></script> -->
