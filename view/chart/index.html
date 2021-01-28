@@ -1,0 +1,179 @@
+<!DOCTYPE html><html><!-- HTML page head --><head>
+    <!-- HTML metadata -->
+    <meta charset="UTF-8">
+    <title>FinMango FIRE</title>
+    <meta name="description" content="FIRE calculator, made by FinMango">
+    <link rel="icon" type="image/ico" href="../../static/favicon.ico">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="FinMango FIRE">
+
+    <!-- Homescreen icons -->
+    <link rel="apple-touch-icon" href="../../static/favicon.ico">
+
+    <!-- Capabilities-related metadata -->
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+
+    <!-- Google Charts -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <!-- MomentJS -->
+    <script type="text/javascript" src="../../third_party/moment/min/moment.min.js"></script>
+
+    <!-- Custom styles and fonts -->
+    <link rel="stylesheet" href="http://fonts.cdnfonts.com/css/goldman-sans">
+    <link rel="stylesheet" href="../../third_party/picnic/picnic.min.css">
+    <link rel="stylesheet" href="../../static/styles.min.css">
+
+    <!-- Polyfills, custom functions and constants -->
+    <script type="text/javascript" src="../../static/cache.min.js"></script>
+    <script type="text/javascript" src="../../static/formatter.min.js"></script>
+    <script type="text/javascript" src="../../static/component-helper.min.js"></script>
+    <script type="text/javascript" src="../../static/polyfills.min.js"></script>
+    <script type="text/javascript">const DEFAULT_OPTIONS={};CURRENT_OPTIONS=Object.keys(DEFAULT_OPTIONS).reduce((t,e)=>Object.assign(t,{[e]:sessionStorage.getItem(e)||DEFAULT_OPTIONS[e]}),{}),GOOGLE_CHARTS_CONFIG=window.GOOGLE_CHARTS_CONFIG||{theme:"material",fontName:"Goldman Sans",colors:["{{theme-primary}}"],legend:{position:CURRENT_OPTIONS.chart_legend_position||"none"},chartArea:{width:"100%",height:"100%",left:parseInt(CURRENT_OPTIONS.chart_padding_left||64),bottom:parseInt(CURRENT_OPTIONS.chart_padding_bottom||48),top:parseInt(CURRENT_OPTIONS.chart_padding_top||24)},titlePosition:"in",axisTitlesPosition:"in",hAxis:{textPosition:"bottom",textStyle:{fontName:"Goldman Sans"}},vAxis:{textPosition:"out",viewWindow:{min:0},textStyle:{fontName:"Goldman Sans"}},height:parseInt(CURRENT_OPTIONS.chart_height||300)};</script>
+
+
+
+</head><body>
+    <!-- Page header -->
+    <!-- <a class="centered uppercase" target="_blank" href="https://thecovidmonitor.com">
+    <img src="../../static/logo_wide.webp" height="128" width="auto" />
+</a> -->
+
+    <main class="single-column-wide" style="margin-top: auto; margin-bottom: auto;">
+
+        <div class="spacer"></div>
+
+        <div id="fire-calculator-chart">
+
+    <div>
+        <h2 class="centered" style="text-transform: uppercase;">
+            You can achieve financial independence in
+            <br>
+            <span style="font-size: xx-large;">
+                <span id="fire-years"></span> years
+            </span>
+        </h2>
+    </div>
+
+    <div id="chart-container" class="chart-container"></div>
+
+    <div class="spacer"></div>
+
+    <details>
+        <summary>Calculator Options</summary>
+
+        <form class="flex one two-600">
+
+            <div>
+                <label for="debt-net" style="margin-bottom: auto;">
+                    Loans and Liabilities
+                    <br>
+                    <small>Total amount of money owed.</small>
+                </label>
+                <input type="decimal" id="debt-net" min="1" value="10000" style="margin-top: auto;">
+            </div>
+
+            <div>
+                <label for="debt-interest-rate">
+                    Debt Interest Rate
+                    <br>
+                    <small>Annualized percentage charged by the loan provider, accruing daily.</small>
+                </label>
+                <input type="decimal" id="debt-interest-rate" min="0" max="100" value="6">
+            </div>
+
+            <div>
+                <label for="debt-payment-minimum">
+                    Minimum Monthly Loan Payment
+                    <br>
+                    <small>Minium monthly payment required by the loan provider.</small>
+                </label>
+                <input type="decimal" id="debt-payment-minimum" min="1" value="500">
+            </div>
+
+            <div>
+                <label for="debt-payment-strategy">
+                    Loan Payment Strategy
+                    <br>
+                    <small>Strategy used to repay the debt. "Optimal" assumes constant investment return.</small>
+                </label>
+                <select id="debt-payment-strategy">
+                    <option value="optimal" selected>Optimal</option>
+                    <option value="debt-first">All Debt First</option>
+                    <option value="debt-last">Only Minimum Payments</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="investments-net">
+                    Current Investments
+                    <br>
+                    <small>Total money invested in stock market, 401K, etc.</small>
+                </label>
+                <input type="decimal" id="investments-net" min="1" value="5000">
+            </div>
+
+            <div>
+                <label for="expected-return">
+                    Expected Rate of Return
+                    <br>
+                    <small>Yearly growth percentage for your investments.</small>
+                </label>
+                <input type="decimal" id="expected-return" min="0" max="20" value="8">
+            </div>
+
+            <div>
+                <label for="income-net">
+                    Annual Post-Tax Income
+                    <br>
+                    <small>Total household income <span style="text-decoration: underline;">after</span>
+                        taxes.</small>
+                </label>
+                <input type="decimal" id="income-net" min="1" value="60000">
+            </div>
+
+            <div>
+                <label for="savings-rate">
+                    Savings Rate
+                    <br>
+                    <small>Percentage of your income going into investments and to pay off debt.</small>
+                </label>
+                <input type="decimal" id="savings-rate" min="0" max="100" value="25">
+            </div>
+
+            <div>
+                <label for="income-target">
+                    Target Retirement Income
+                    <br>
+                    <small>Annual after-tax target income after retirement.</small>
+                </label>
+                <input type="decimal" id="income-target" min="1" value="50000">
+            </div>
+
+            <div>
+                <label for="safe-withdrawal-rate">
+                    Safe Withdrawal Rate
+                    <br>
+                    <small>Percentage of investments that can be withdrawn without a net negative effect.</small>
+                </label>
+                <input type="decimal" id="safe-withdrawal-rate" min="0" max="100" value="4">
+            </div>
+        </form>
+    </details>
+
+    <script async>const FIRE_TEXT="🔥 FIRE TARGET REACHED 🔥",DEBT_FREE_TEXT="DEBT FREE";function monthlyToAnnualRate(e){return Math.pow(e+1,12)-1}function annualToMonthlyRate(e){return Math.pow(e+1,1/12)-1}!async function(){const e=document.currentScript.parentElement;await CacheHelper.loadGoogleCharts();const t=e.querySelector("#chart-container"),n=e.querySelector("#investments-net"),r=e.querySelector("#expected-return"),a=e.querySelector("#income-net"),o=e.querySelector("#savings-rate"),l=e.querySelector("#debt-net"),i=e.querySelector("#debt-interest-rate"),u=e.querySelector("#debt-payment-minimum"),s=e.querySelector("#debt-payment-strategy"),c=e.querySelector("#income-target"),m=e.querySelector("#safe-withdrawal-rate");(new ComponentHelper).addFormData(e.querySelector("form")).onLoad(()=>{const d=Number(l.value),y=Number(a.value),b=Number(n.value),h=Number(o.value)/100,p=Number(c.value)/(Number(m.value)/100),f=Number(i.value)/100,E=y/12,v=1+annualToMonthlyRate(Number(r.value)/100),T=(annualToMonthlyRate(.01),1+f/365),g=Math.pow(T,30),w=s.value,S=Number(u.value),R=[];let q={debtfree:0===d,fire:!1},F=d,N=E,C=b;for(let t=0;t<1200;t++){const n=(Math.round(t/12*2)/2).toFixed(1).replace(".0","");R.push({month:t,year:Math.floor(t/12),xlabel:`${n} years`,date:`${Math.floor(t/12)} years and ${t%12} months`,debt:F,income:N,investments:C,networth:C-F}),F<=0&&!q.debtfree&&(q.debtfree=!0,R[R.length-1].debtfree=!0,R[R.length-1].annotation="DEBT FREE"),C-F>p&&!q.fire&&(q.fire=!0,R[R.length-1].fire=!0,R[R.length-1].annotation=FIRE_TEXT,e.querySelector("#fire-years").innerText=n),F*=g,C*=v;const r=N*h,a="optimal"===w;if("debt-first"===w||a&&g>=v)F-=r;else{if(!("debt-last"===w||a&&g<v))throw new Error("Unknown debt payment strategy");F-=S,C+=r-S}F<0&&(C-=F,F=0)}const M=R.map(e=>!!e.fire).indexOf(!0),x=e=>`${e.date}\n`+`${Formatter.price(e.networth)} Net Worth\n`+`${Formatter.price(e.investments)} Investments\n`+`${Formatter.price(e.debt)} Debt`,D=new google.visualization.DataTable;D.addColumn({label:"Time",type:"string"}),D.addColumn({type:"string",role:"annotation"}),D.addColumn({label:"Net Worth",type:"number"}),D.addColumn({type:"string",role:"tooltip"}),D.addRows(R.slice(0,M+36).map(e=>[e.xlabel,e.annotation,e.networth,x(e)])),new google.visualization.AreaChart(t).draw(D,Object.assign({},GOOGLE_CHARTS_CONFIG,{title:"🔥 with FinMango",curveType:"function",series:[{color:"#757575"}],intervals:{style:"area"},vAxis:{textPosition:"out"},interpolateNulls:!0,annotations:{style:"line"}}))}).init()}();</script>
+</div>
+
+        <!-- Add some whitespace to the bottom -->
+        <div class="spacer"></div>
+        <div class="spacer"></div>
+    </main>
+
+    <!-- Load analytics at the end of the page -->
+    <!-- <script src="../../components/analytics.tpl.html" data-include data-vars='{"root": "../.."}'></script> -->
+
+
+</body></html>
