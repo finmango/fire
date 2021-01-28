@@ -38,9 +38,18 @@
 
 </head><body>
     <!-- Page header -->
-    <!-- <a class="centered uppercase" target="_blank" href="https://thecovidmonitor.com">
-    <img src="../../static/logo_wide.webp" height="128" width="auto" />
-</a> -->
+    <header class="flex center one two-600 three-800">
+    <div class="none sixth-800"></div>
+    <div>
+        <a class="centered uppercase" target="_blank" href="https://finmango.org" style="display: block; padding: 0;">
+            <img class="centered" src="../../static/logo.png" height="128" width="auto">
+        </a>
+    </div>
+    <div>
+        <h1 class="centered uppercase">🔥 FIRE Calculator</h1>
+    </div>
+    <div class="none sixth-800"></div>
+</header>
 
     <main class="single-column-wide" style="margin-top: auto; margin-bottom: auto;">
 
@@ -164,7 +173,7 @@
         </form>
     </details>
 
-    <script async>const FIRE_TEXT="🔥 FIRE TARGET REACHED 🔥",DEBT_FREE_TEXT="DEBT FREE";function monthlyToAnnualRate(e){return Math.pow(e+1,12)-1}function annualToMonthlyRate(e){return Math.pow(e+1,1/12)-1}!async function(){const e=document.currentScript.parentElement;await CacheHelper.loadGoogleCharts();const t=e.querySelector("#chart-container"),n=e.querySelector("#investments-net"),r=e.querySelector("#expected-return"),a=e.querySelector("#income-net"),o=e.querySelector("#savings-rate"),l=e.querySelector("#debt-net"),i=e.querySelector("#debt-interest-rate"),u=e.querySelector("#debt-payment-minimum"),s=e.querySelector("#debt-payment-strategy"),c=e.querySelector("#income-target"),m=e.querySelector("#safe-withdrawal-rate");(new ComponentHelper).addFormData(e.querySelector("form")).onLoad(()=>{const d=Number(l.value),y=Number(a.value),b=Number(n.value),h=Number(o.value)/100,p=Number(c.value)/(Number(m.value)/100),f=Number(i.value)/100,E=y/12,v=1+annualToMonthlyRate(Number(r.value)/100),T=(annualToMonthlyRate(.01),1+f/365),g=Math.pow(T,30),w=s.value,S=Number(u.value),R=[];let q={debtfree:0===d,fire:!1},F=d,N=E,C=b;for(let t=0;t<1200;t++){const n=(Math.round(t/12*2)/2).toFixed(1).replace(".0","");R.push({month:t,year:Math.floor(t/12),xlabel:`${n} years`,date:`${Math.floor(t/12)} years and ${t%12} months`,debt:F,income:N,investments:C,networth:C-F}),F<=0&&!q.debtfree&&(q.debtfree=!0,R[R.length-1].debtfree=!0,R[R.length-1].annotation="DEBT FREE"),C-F>p&&!q.fire&&(q.fire=!0,R[R.length-1].fire=!0,R[R.length-1].annotation=FIRE_TEXT,e.querySelector("#fire-years").innerText=n),F*=g,C*=v;const r=N*h,a="optimal"===w;if("debt-first"===w||a&&g>=v)F-=r;else{if(!("debt-last"===w||a&&g<v))throw new Error("Unknown debt payment strategy");F-=S,C+=r-S}F<0&&(C-=F,F=0)}const M=R.map(e=>!!e.fire).indexOf(!0),x=e=>`${e.date}\n`+`${Formatter.price(e.networth)} Net Worth\n`+`${Formatter.price(e.investments)} Investments\n`+`${Formatter.price(e.debt)} Debt`,D=new google.visualization.DataTable;D.addColumn({label:"Time",type:"string"}),D.addColumn({type:"string",role:"annotation"}),D.addColumn({label:"Net Worth",type:"number"}),D.addColumn({type:"string",role:"tooltip"}),D.addRows(R.slice(0,M+36).map(e=>[e.xlabel,e.annotation,e.networth,x(e)])),new google.visualization.AreaChart(t).draw(D,Object.assign({},GOOGLE_CHARTS_CONFIG,{title:"🔥 with FinMango",curveType:"function",series:[{color:"#757575"}],intervals:{style:"area"},vAxis:{textPosition:"out"},interpolateNulls:!0,annotations:{style:"line"}}))}).init()}();</script>
+    <script async>const FIRE_TEXT="🔥 FIRE TARGET REACHED 🔥",DEBT_FREE_TEXT="DEBT FREE";function monthlyToAnnualRate(e){return Math.pow(e+1,12)-1}function annualToMonthlyRate(e){return Math.pow(e+1,1/12)-1}!async function(){const e=document.currentScript.parentElement;await CacheHelper.loadGoogleCharts();const t=e.querySelector("#chart-container"),n=e.querySelector("#investments-net"),r=e.querySelector("#expected-return"),a=e.querySelector("#income-net"),o=e.querySelector("#savings-rate"),l=e.querySelector("#debt-net"),i=e.querySelector("#debt-interest-rate"),u=e.querySelector("#debt-payment-minimum"),s=e.querySelector("#debt-payment-strategy"),c=e.querySelector("#income-target"),m=e.querySelector("#safe-withdrawal-rate");(new ComponentHelper).addFormData(e.querySelector("form")).onLoad(()=>{const d=Number(l.value),y=Number(a.value),b=Number(n.value),h=Number(o.value)/100,p=Number(c.value)/(Number(m.value)/100),f=Number(i.value)/100,E=y/12,g=1+annualToMonthlyRate(Number(r.value)/100),v=(annualToMonthlyRate(.01),1+f/365),T=Math.pow(v,30),w=s.value,S=Number(u.value),R=[];let q={debtfree:0===d,fire:!1},F=d,N=E,C=b;for(let t=0;t<1200;t++){const n=(Math.round(t/12*2)/2).toFixed(1).replace(".0","");R.push({month:t,year:Math.floor(t/12),xlabel:`${n} years`,date:`${Math.floor(t/12)} years and ${t%12} months`,debt:F,income:N,investments:C,networth:C-F}),F<=0&&!q.debtfree&&(q.debtfree=!0,R[R.length-1].debtfree=!0,R[R.length-1].annotation="DEBT FREE"),C-F>p&&!q.fire&&(q.fire=!0,R[R.length-1].fire=!0,R[R.length-1].annotation=FIRE_TEXT,e.querySelector("#fire-years").innerText=n),F*=T,C*=g;const r=N*h,a="optimal"===w;if("debt-first"===w||a&&T>=g)F-=r;else{if(!("debt-last"===w||a&&T<g))throw new Error("Unknown debt payment strategy");F-=S,C+=r-S}F<0&&(C-=F,F=0)}const M=R.map(e=>!!e.fire).indexOf(!0),x=e=>`${e.date}\n`+`${Formatter.price(e.networth)} Net Worth\n`+`${Formatter.price(e.investments)} Investments\n`+`${Formatter.price(e.debt)} Debt`,D=new google.visualization.DataTable;D.addColumn({label:"Time",type:"string"}),D.addColumn({type:"string",role:"annotation"}),D.addColumn({label:"Net Worth",type:"number"}),D.addColumn({type:"string",role:"tooltip"}),D.addRows(R.slice(0,M+36).map(e=>[e.xlabel,e.annotation,e.networth,x(e)])),new google.visualization.AreaChart(t).draw(D,Object.assign({},GOOGLE_CHARTS_CONFIG,{title:"🔥 with FinMango",curveType:"function",series:[{color:"#757575"}],intervals:{style:"area"},vAxis:{textPosition:"out"},interpolateNulls:!0,annotations:{style:"line"}})),t.style.backgroundImage="none"}).init()}();</script>
 </div>
 
         <!-- Add some whitespace to the bottom -->
