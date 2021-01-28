@@ -194,7 +194,7 @@
         </div>
     </div>
 
-    <script async>!async function(){const e=document.currentScript.parentElement;let c=0;const s=[].slice.call(e.querySelectorAll("div.screen"),0,-1);e.querySelector("#next").addEventListener("click",l=>{if(c+1<s.length){const e=s[c],l=s[c+1];e.classList.remove("screen-visible"),l.classList.add("screen-visible"),c++}else{const c=[].slice.call(e.querySelectorAll("input, select")),s=new URL("/view/chart/",window.location.href);c.forEach(e=>{s.searchParams.set(e.id,e.value)}),window.location=s}}),e.querySelector("#how-much-owed").classList.add("screen-visible"),e.querySelector("#nav").classList.add("screen-visible")}();</script>
+    <script async>!async function(){const e=document.currentScript.parentElement;let c=0;const s=[].slice.call(e.querySelectorAll("div.screen"),0,-1);e.querySelector("#next").addEventListener("click",t=>{if(c+1<s.length){const e=s[c],t=s[c+1];e.classList.remove("screen-visible"),t.classList.add("screen-visible"),c++}else{const c=[].slice.call(e.querySelectorAll("input, select")),s=new URL(window.location.href),t=s.pathname.endsWith("/")?"":"/";s.pathname+=t+"view/chart/",c.forEach(e=>{s.searchParams.set(e.id,e.value)}),window.location=s}}),e.querySelector("#how-much-owed").classList.add("screen-visible"),e.querySelector("#nav").classList.add("screen-visible")}();</script>
 </div>
 
         <!-- Add some whitespace to the bottom -->
