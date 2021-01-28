@@ -62,7 +62,7 @@
             <label for="debt-net">
                 Total Amount Owed
             </label>
-            <input type="decimal" id="debt-net" min="0" value="0">
+            <input type="number" pattern="/d*" id="debt-net" min="0" value="0">
             <span class="centered" style="font-size: small;">
                 The average student or car loan debt is around $30,000.
             </span>
@@ -74,7 +74,7 @@
             <label for="debt-interest-rate">
                 Interest Rate
             </label>
-            <input type="decimal" id="debt-interest-rate" min="0" max="100" value="5">
+            <input type="number" pattern="/d*" id="debt-interest-rate" min="0" max="100" value="5">
             <span class="centered" style="font-size: small;">
                 The average student and car loan interest rate is 5-6%, mortgage is around 4%.
             </span>
@@ -96,7 +96,7 @@
             <label for="investments-net">
                 Total Invested Amount
             </label>
-            <input type="decimal" id="investments-net" min="0" value="0">
+            <input type="number" pattern="/d*" id="investments-net" min="0" value="0">
             <span class="centered" style="font-size: small;">
                 Total money invested in stock market, 401K, etc.
             </span>
@@ -108,7 +108,7 @@
             <label for="expected-return">
                 Expected Investment Annual Return Rate
             </label>
-            <input type="decimal" id="expected-return" min="0" max="100" value="9.2">
+            <input type="number" pattern="/d*" id="expected-return" min="0" max="100" value="9.2">
             <span class="centered" style="font-size: small;">
                 The average stock market return for a 10-year period is 9.2% per year.
             </span>
@@ -134,7 +134,7 @@
                 Total household income <span style="text-decoration: underline;">after</span>
                 taxes.
             </span>
-            <input type="decimal" id="income-net" min="1" value="60000">
+            <input type="number" pattern="/d*" id="income-net" min="1" value="60000">
         </div>
 
         <div class="spacer"></div>
@@ -146,7 +146,7 @@
             <span class="centered" style="font-size: small;">
                 Percentage of your income going into investments and to pay off debt.
             </span>
-            <input type="decimal" id="savings-rate" min="0" max="100" value="25">
+            <input type="number" pattern="/d*" id="savings-rate" min="0" max="100" value="25">
         </div>
     </div>
 
@@ -168,7 +168,7 @@
             <span class="centered" style="font-size: small;">
                 Annual after-tax target income after retirement.
             </span>
-            <input type="decimal" id="income-target" min="1" value="60000">
+            <input type="number" pattern="/d*" id="income-target" min="1" value="60000">
         </div>
 
         <div class="spacer"></div>
@@ -180,7 +180,7 @@
             <span class="centered" style="font-size: small;">
                 Percentage of investments that can be withdrawn without a net negative effect. Typically 4%.
             </span>
-            <input type="decimal" id="safe-withdrawal-rate" min="0" max="100" value="4">
+            <input type="number" pattern="/d*" id="safe-withdrawal-rate" min="0" max="100" value="4">
         </div>
     </div>
 
