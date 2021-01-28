@@ -181,7 +181,9 @@
                     screenIdx++;
                 } else {
                     const formElements = [].slice.call(rootElement.querySelectorAll('input, select'));
-                    const nextUrl = new URL('/view/chart/', window.location.href);
+                    const nextUrl = new URL(window.location.href);
+                    const pathPrefix = nextUrl.pathname.endsWith('/') ? '' : '/';
+                    nextUrl.pathname += pathPrefix + 'view/chart/';
                     formElements.forEach(elem => {
                         nextUrl.searchParams.set(elem.id, elem.value);
                     });
