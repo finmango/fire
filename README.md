@@ -1,5 +1,5 @@
 # FIRE Calculator
-FIRE calculator, by FinMango
+FIRE calculator, by FinMango. To see it in action, go to <https://mngo.org/fire>.
 
 ### Building the website
 The website is automatically built upon a Git push. To build it manually, run:
