@@ -60,6 +60,6 @@
   },
   "dependencies": {
     "moment": "^2.27.0",
-    "picnic": "^6.5.2",
+    "picnic": "^6.5.2"
   }
 }
