@@ -181,7 +181,8 @@
                     screenIdx++;
                 } else {
                     const formElements = [].slice.call(rootElement.querySelectorAll('input, select'));
-                    const nextUrl = new URL('{{root}}/view/chart/', window.location.href);
+                    const path = window.location.pathname.includes('/embed/') ? '{{root}}/embed/chart/' : '{{root}}/view/chart/';
+                    const nextUrl = new URL(path, window.location.href);
                     formElements.forEach(elem => {
                         nextUrl.searchParams.set(elem.id, elem.value);
                     });
