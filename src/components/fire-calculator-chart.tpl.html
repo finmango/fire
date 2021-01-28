@@ -25,7 +25,7 @@
                     </br>
                     <small>Total amount of money owed.</small>
                 </label>
-                <input type="decimal" id="debt-net" min="1" value="10000" style="margin-top: auto;" />
+                <input type="number" pattern="/d*" id="debt-net" min="1" value="10000" style="margin-top: auto;" />
             </div>
 
             <div>
@@ -34,7 +34,7 @@
                     </br>
                     <small>Annualized percentage charged by the loan provider, accruing daily.</small>
                 </label>
-                <input type="decimal" id="debt-interest-rate" min="0" max="100" value="6" />
+                <input type="number" pattern="/d*" id="debt-interest-rate" min="0" max="100" value="6" />
             </div>
 
             <div>
@@ -43,7 +43,7 @@
                     </br>
                     <small>Minium monthly payment required by the loan provider.</small>
                 </label>
-                <input type="decimal" id="debt-payment-minimum" min="1" value="500" />
+                <input type="number" pattern="/d*" id="debt-payment-minimum" min="1" value="500" />
             </div>
 
             <div>
@@ -65,7 +65,7 @@
                     </br>
                     <small>Total money invested in stock market, 401K, etc.</small>
                 </label>
-                <input type="decimal" id="investments-net" min="1" value="5000" />
+                <input type="number" pattern="/d*" id="investments-net" min="1" value="5000" />
             </div>
 
             <div>
@@ -74,7 +74,7 @@
                     </br>
                     <small>Yearly growth percentage for your investments.</small>
                 </label>
-                <input type="decimal" id="expected-return" min="0" max="20" value="8" />
+                <input type="number" pattern="/d*" id="expected-return" min="0" max="20" value="8" />
             </div>
 
             <div>
@@ -84,7 +84,7 @@
                     <small>Total household income <span style="text-decoration: underline;">after</span>
                         taxes.</small>
                 </label>
-                <input type="decimal" id="income-net" min="1" value="60000" />
+                <input type="number" pattern="/d*" id="income-net" min="1" value="60000" />
             </div>
 
             <div>
@@ -93,7 +93,7 @@
                     </br>
                     <small>Percentage of your income going into investments and to pay off debt.</small>
                 </label>
-                <input type="decimal" id="savings-rate" min="0" max="100" value="25" />
+                <input type="number" pattern="/d*" id="savings-rate" min="0" max="100" value="25" />
             </div>
 
             <div>
@@ -102,7 +102,7 @@
                     </br>
                     <small>Annual after-tax target income after retirement.</small>
                 </label>
-                <input type="decimal" id="income-target" min="1" value="50000" />
+                <input type="number" pattern="/d*" id="income-target" min="1" value="50000" />
             </div>
 
             <div>
@@ -111,7 +111,7 @@
                     </br>
                     <small>Percentage of investments that can be withdrawn without a net negative effect.</small>
                 </label>
-                <input type="decimal" id="safe-withdrawal-rate" min="0" max="100" value="4" />
+                <input type="number" pattern="/d*" id="safe-withdrawal-rate" min="0" max="100" value="4" />
             </div>
         </form>
     </details>
