@@ -1,0 +1,77 @@
+<head>
+    <!-- HTML metadata -->
+    <meta charset="UTF-8" />
+    <title>{{name}}</title>
+    <meta name="description" content="{{description}}" />
+    <link rel="icon" type="image/ico" href="{{root}}/static/favicon.ico" />
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="{{name}}" />
+
+    <!-- Homescreen icons -->
+    <link rel="apple-touch-icon" href="{{root}}/static/favicon.ico" />
+
+    <!-- Capabilities-related metadata -->
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1" />
+
+    <!-- Google Charts -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <!-- MomentJS -->
+    <script type="text/javascript" src="{{root}}/third_party/moment/min/moment.min.js"></script>
+
+    <!-- Custom styles and fonts -->
+    <link rel="stylesheet" href="http://fonts.cdnfonts.com/css/goldman-sans">
+    <link rel="stylesheet" href="{{root}}/third_party/picnic/picnic.min.css" />
+    <link rel="stylesheet" href="{{root}}/static/styles.min.css" />
+
+    <!-- Polyfills, custom functions and constants -->
+    <script type="text/javascript" src="{{root}}/static/cache.min.js"></script>
+    <script type="text/javascript" src="{{root}}/static/formatter.min.js"></script>
+    <script type="text/javascript" src="{{root}}/static/component-helper.min.js"></script>
+    <script type="text/javascript" src="{{root}}/static/polyfills.min.js"></script>
+    <script type="text/javascript">
+
+        // Define constants and default options
+        const DEFAULT_OPTIONS = {
+            // 'chart_legend_position': 'top',
+        }
+
+        // Read debugging options from session storage
+        CURRENT_OPTIONS = Object.keys(DEFAULT_OPTIONS).reduce((acc, key) =>
+            Object.assign(acc, { [key]: sessionStorage.getItem(key) || DEFAULT_OPTIONS[key] }), {});
+
+        // Create a default configuration for Google Charts
+        GOOGLE_CHARTS_CONFIG = window.GOOGLE_CHARTS_CONFIG || {
+            theme: 'material',
+            fontName: 'Goldman Sans',
+            colors: ['{{theme-primary}}'],
+            legend: {
+                position: CURRENT_OPTIONS.chart_legend_position || 'none'
+            },
+            chartArea: {
+                width: '100%',
+                height: '100%',
+                left: parseInt(CURRENT_OPTIONS.chart_padding_left || 64),
+                bottom: parseInt(CURRENT_OPTIONS.chart_padding_bottom || 48),
+                top: parseInt(CURRENT_OPTIONS.chart_padding_top || 24),
+            },
+            titlePosition: 'in',
+            axisTitlesPosition: 'in',
+            hAxis: {
+                textPosition: 'bottom',
+                textStyle: { fontName: 'Goldman Sans' },
+            },
+            vAxis: {
+                textPosition: 'out',
+                viewWindow: { min: 0 },
+                textStyle: { fontName: 'Goldman Sans' },
+            },
+            height: parseInt(CURRENT_OPTIONS.chart_height || 300),
+        }
+
+    </script>
+
+</head>

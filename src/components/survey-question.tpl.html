@@ -1,0 +1,196 @@
+<div id="fire-survey">
+    <style>
+        .animated {
+            transition: all 500ms ease-in-out;
+        }
+
+        .screen {
+            height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+
+        .screen-visible {
+            height: auto;
+            opacity: 1;
+            overflow: initial;
+        }
+    </style>
+
+    <div class="screen animated" id="how-much-owed">
+
+        <div class="spacer"></div>
+        <div class="spacer"></div>
+
+        <div>
+            <h2 class="centered" style="text-transform: uppercase; font-size: xx-large;">
+                Do you have any debts?
+            </h2>
+        </div>
+
+        <div class="centered flex one" style="max-width: 600px;">
+            <label for="debt-net">
+                Total Amount Owed
+            </label>
+            <input type="decimal" id="debt-net" min="0" value="0" />
+            <span class="centered" style="font-size: small;">
+                The average student or car loan debt is around $30,000.
+            </span>
+        </div>
+
+        <div class="spacer"></div>
+
+        <div class="centered flex one" style="max-width: 600px;">
+            <label for="debt-interest-rate">
+                Interest Rate
+            </label>
+            <input type="decimal" id="debt-interest-rate" min="0" max="100" value="5" />
+            <span class="centered" style="font-size: small;">
+                The average student and car loan interest rate is 5-6%, mortgage is around 4%.
+            </span>
+        </div>
+    </div>
+
+    <div class="screen animated" id="how-much-invested">
+
+        <div class="spacer"></div>
+        <div class="spacer"></div>
+
+        <div>
+            <h2 class="centered" style="text-transform: uppercase; font-size: xx-large;">
+                Do you have any investments?
+            </h2>
+        </div>
+
+        <div class="centered flex one" style="max-width: 600px;">
+            <label for="investments-net">
+                Total Invested Amount
+            </label>
+            <input type="decimal" id="investments-net" min="0" value="0" />
+            <span class="centered" style="font-size: small;">
+                Total money invested in stock market, 401K, etc.
+            </span>
+        </div>
+
+        <div class="spacer"></div>
+
+        <div class="centered flex one" style="max-width: 600px;">
+            <label for="expected-return">
+                Expected Investment Annual Return Rate
+            </label>
+            <input type="decimal" id="expected-return" min="0" max="100" value="9.2" />
+            <span class="centered" style="font-size: small;">
+                The average stock market return for a 10-year period is 9.2% per year.
+            </span>
+        </div>
+    </div>
+
+    <div class="screen animated" id="how-much-earned">
+
+        <div class="spacer"></div>
+        <div class="spacer"></div>
+
+        <div>
+            <h2 class="centered" style="text-transform: uppercase; font-size: xx-large;">
+                What is your income?
+            </h2>
+        </div>
+
+        <div class="centered flex one" style="max-width: 600px;">
+            <label for="income-net">
+                Annual Post-Tax Income
+            </label>
+            <span class="centered" style="font-size: small;">
+                Total household income <span style="text-decoration: underline;">after</span>
+                taxes.
+            </span>
+            <input type="decimal" id="income-net" min="1" value="60000" />
+        </div>
+
+        <div class="spacer"></div>
+
+        <div class="centered flex one" style="max-width: 600px;">
+            <label for="savings-rate">
+                Savings Rate
+            </label>
+            <span class="centered" style="font-size: small;">
+                Percentage of your income going into investments and to pay off debt.
+            </span>
+            <input type="decimal" id="savings-rate" min="0" max="100" value="25" />
+        </div>
+    </div>
+
+    <div class="screen animated" id="retirement-goals">
+
+        <div class="spacer"></div>
+        <div class="spacer"></div>
+
+        <div>
+            <h2 class="centered" style="text-transform: uppercase; font-size: xx-large;">
+                What are your retirement goals?
+            </h2>
+        </div>
+
+        <div class="centered flex one" style="max-width: 600px;">
+            <label for="income-target">
+                Annual Target Retirement Income
+            </label>
+            <span class="centered" style="font-size: small;">
+                Annual after-tax target income after retirement.
+            </span>
+            <input type="decimal" id="income-target" min="1" value="60000" />
+        </div>
+
+        <div class="spacer"></div>
+
+        <div class="centered flex one" style="max-width: 600px;">
+            <label for="safe-withdrawal-rate">
+                Safe Withdrawal Rate
+            </label>
+            <span class="centered" style="font-size: small;">
+                Percentage of investments that can be withdrawn without a net negative effect. Typically 4%.
+            </span>
+            <input type="decimal" id="safe-withdrawal-rate" min="0" max="100" value="4" />
+        </div>
+    </div>
+
+    <div class="spacer"></div>
+    <div class="spacer"></div>
+
+    <div class="screen animated" id="nav">
+        <div class="centered flex one" style="max-width: 600px;">
+            <button id="next">NEXT</button>
+            <button onclick="window.location.reload()">START OVER</button>
+        </div>
+    </div>
+
+    <script async>
+        (async function () {
+            const rootElement = document.currentScript.parentElement;
+
+            let screenIdx = 0;
+            const screens = [].slice.call(rootElement.querySelectorAll('div.screen'), 0, -1);
+            rootElement.querySelector('#next').addEventListener('click', event => {
+                if (screenIdx + 1 < screens.length) {
+                    const currScreen = screens[screenIdx];
+                    const nextScreen = screens[screenIdx + 1];
+
+                    currScreen.classList.remove('screen-visible');
+                    nextScreen.classList.add('screen-visible');
+
+                    screenIdx++;
+                } else {
+                    const formElements = [].slice.call(rootElement.querySelectorAll('input, select'));
+                    const nextUrl = new URL('/view/chart/', window.location.href);
+                    formElements.forEach(elem => {
+                        nextUrl.searchParams.set(elem.id, elem.value);
+                    });
+                    window.location = nextUrl;
+                }
+            });
+
+            rootElement.querySelector('#how-much-owed').classList.add('screen-visible');
+            rootElement.querySelector('#nav').classList.add('screen-visible');
+        })();
+    </script>
+</div>

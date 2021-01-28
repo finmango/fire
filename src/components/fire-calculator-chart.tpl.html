@@ -1,0 +1,270 @@
+<div id="fire-calculator-chart">
+
+    <div>
+        <h2 class="centered" style="text-transform: uppercase;">
+            You can achieve financial independence in
+            <br />
+            <span style="font-size: xx-large;">
+                <span id="fire-years"></span> years
+            </span>
+        </h2>
+    </div>
+
+    <div id="chart-container" class="chart-container"></div>
+
+    <div class="spacer"></div>
+
+    <details>
+        <summary>Calculator Options</summary>
+
+        <form class="flex one two-600">
+
+            <div>
+                <label for="debt-net" style="margin-bottom: auto;">
+                    Loans and Liabilities
+                    </br>
+                    <small>Total amount of money owed.</small>
+                </label>
+                <input type="decimal" id="debt-net" min="1" value="10000" style="margin-top: auto;" />
+            </div>
+
+            <div>
+                <label for="debt-interest-rate">
+                    Debt Interest Rate
+                    </br>
+                    <small>Annualized percentage charged by the loan provider, accruing daily.</small>
+                </label>
+                <input type="decimal" id="debt-interest-rate" min="0" max="100" value="6" />
+            </div>
+
+            <div>
+                <label for="debt-payment-minimum">
+                    Minimum Monthly Loan Payment
+                    </br>
+                    <small>Minium monthly payment required by the loan provider.</small>
+                </label>
+                <input type="decimal" id="debt-payment-minimum" min="1" value="500" />
+            </div>
+
+            <div>
+                <label for="debt-payment-strategy">
+                    Loan Payment Strategy
+                    </br>
+                    <small>Strategy used to repay the debt. "Optimal" assumes constant investment return.</small>
+                </label>
+                <select id="debt-payment-strategy">
+                    <option value="optimal" selected>Optimal</option>
+                    <option value="debt-first">All Debt First</option>
+                    <option value="debt-last">Only Minimum Payments</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="investments-net">
+                    Current Investments
+                    </br>
+                    <small>Total money invested in stock market, 401K, etc.</small>
+                </label>
+                <input type="decimal" id="investments-net" min="1" value="5000" />
+            </div>
+
+            <div>
+                <label for="expected-return">
+                    Expected Rate of Return
+                    </br>
+                    <small>Yearly growth percentage for your investments.</small>
+                </label>
+                <input type="decimal" id="expected-return" min="0" max="20" value="8" />
+            </div>
+
+            <div>
+                <label for="income-net">
+                    Annual Post-Tax Income
+                    </br>
+                    <small>Total household income <span style="text-decoration: underline;">after</span>
+                        taxes.</small>
+                </label>
+                <input type="decimal" id="income-net" min="1" value="60000" />
+            </div>
+
+            <div>
+                <label for="savings-rate">
+                    Savings Rate
+                    </br>
+                    <small>Percentage of your income going into investments and to pay off debt.</small>
+                </label>
+                <input type="decimal" id="savings-rate" min="0" max="100" value="25" />
+            </div>
+
+            <div>
+                <label for="income-target">
+                    Target Retirement Income
+                    </br>
+                    <small>Annual after-tax target income after retirement.</small>
+                </label>
+                <input type="decimal" id="income-target" min="1" value="50000" />
+            </div>
+
+            <div>
+                <label for="safe-withdrawal-rate">
+                    Safe Withdrawal Rate
+                    </br>
+                    <small>Percentage of investments that can be withdrawn without a net negative effect.</small>
+                </label>
+                <input type="decimal" id="safe-withdrawal-rate" min="0" max="100" value="4" />
+            </div>
+        </form>
+    </details>
+
+    <script async>
+        const FIRE_TEXT = '🔥 FIRE TARGET REACHED 🔥';
+        const DEBT_FREE_TEXT = 'DEBT FREE';
+
+        function monthlyToAnnualRate(rate) {
+            return Math.pow(rate + 1, 12) - 1;
+        }
+
+        function annualToMonthlyRate(rate) {
+            return Math.pow(rate + 1, 1 / 12) - 1;
+        }
+
+        (async function () {
+            const rootElement = document.currentScript.parentElement;
+            await CacheHelper.loadGoogleCharts();
+
+            const chartElem = rootElement.querySelector('#chart-container');
+
+            const investmentsSelector = rootElement.querySelector('#investments-net');
+            const returnRateSelector = rootElement.querySelector('#expected-return');
+
+            const incomeSelector = rootElement.querySelector('#income-net');
+            const savingsRateSelector = rootElement.querySelector('#savings-rate');
+
+            const debtSelector = rootElement.querySelector('#debt-net');
+            const debtInterestRateSelector = rootElement.querySelector('#debt-interest-rate');
+
+            const debtPaymentMinimumSelector = rootElement.querySelector('#debt-payment-minimum');
+            const debtPaymentStrategySelector = rootElement.querySelector('#debt-payment-strategy');
+
+            const incomeTargetSelector = rootElement.querySelector('#income-target');
+            const safeWithdrawalRateSelector = rootElement.querySelector('#safe-withdrawal-rate');
+
+
+            new ComponentHelper()
+                .addFormData(rootElement.querySelector('form'))
+                .onLoad(() => {
+                    const projectedYears = 100;
+
+                    const initialDebt = Number(debtSelector.value);
+                    const initialIncome = Number(incomeSelector.value);
+                    const initialInvestments = Number(investmentsSelector.value);
+                    const savingsRate = Number(savingsRateSelector.value) / 100;
+
+                    const incomeTarget = Number(incomeTargetSelector.value);
+                    const safeWithdrawalRate = Number(safeWithdrawalRateSelector.value) / 100;
+                    const investmentsTarget = incomeTarget / safeWithdrawalRate;
+
+                    const incomeGrowthRate = 0.01;
+                    const annualDebtGrowthRate = Number(debtInterestRateSelector.value) / 100;
+                    const annualInvestmentsGrowthRate = Number(returnRateSelector.value) / 100;
+                    const annualExpensesGrowthRate = 0.01;
+
+                    const monthlyIncome = initialIncome / 12;
+
+                    const monthlyInvestmentsMultiplier = 1 + annualToMonthlyRate(annualInvestmentsGrowthRate);
+                    const monthlyExpensesMultiplier = 1 + annualToMonthlyRate(annualExpensesGrowthRate);
+
+                    const dailyDebtMultiplier = 1 + (annualDebtGrowthRate / 365);
+                    const monthlyDebtMultiplier = Math.pow(dailyDebtMultiplier, 30);
+
+                    const debtPaymentStrategy = debtPaymentStrategySelector.value;
+                    const debtPaymentMonthly = Number(debtPaymentMinimumSelector.value);
+
+                    const data = [];
+                    let flags = { 'debtfree': initialDebt === 0, 'fire': false };
+                    let currentDebt = initialDebt;
+                    let currentIncome = monthlyIncome;
+                    let currentInvestments = initialInvestments;
+                    for (let i = 0; i < projectedYears * 12; i++) {
+                        const halfYears = (Math.round(i / 12 * 2) / 2).toFixed(1).replace('.0', '');
+                        data.push({
+                            'month': i,
+                            'year': Math.floor(i / 12),
+                            'xlabel': `${halfYears} years`,
+                            'date': `${Math.floor(i / 12)} years and ${i % 12} months`,
+                            'debt': currentDebt,
+                            'income': currentIncome,
+                            'investments': currentInvestments,
+                            'networth': currentInvestments - currentDebt,
+                        });
+
+                        if (currentDebt <= 0 && !flags['debtfree']) {
+                            flags['debtfree'] = true;
+                            data[data.length - 1]['debtfree'] = true;
+                            data[data.length - 1]['annotation'] = DEBT_FREE_TEXT;
+                        }
+
+                        if ((currentInvestments - currentDebt) > investmentsTarget && !flags['fire']) {
+                            flags['fire'] = true;
+                            data[data.length - 1]['fire'] = true;
+                            data[data.length - 1]['annotation'] = FIRE_TEXT;
+                            rootElement.querySelector('#fire-years').innerText = halfYears;
+                        }
+
+                        // Investments and debt always grow independently of other choices
+                        currentDebt *= monthlyDebtMultiplier;
+                        currentInvestments *= monthlyInvestmentsMultiplier;
+
+                        // Income left to invest and pay debts
+                        const leftOverIncome = currentIncome * savingsRate;
+
+                        const isOptimalStrategy = debtPaymentStrategy === 'optimal';
+                        if (debtPaymentStrategy === 'debt-first' || (isOptimalStrategy && monthlyDebtMultiplier >= monthlyInvestmentsMultiplier)) {
+                            currentDebt -= leftOverIncome;
+                        } else if (debtPaymentStrategy === 'debt-last' || (isOptimalStrategy && monthlyDebtMultiplier < monthlyInvestmentsMultiplier)) {
+                            currentDebt -= debtPaymentMonthly;
+                            currentInvestments += (leftOverIncome - debtPaymentMonthly);
+                        } else {
+                            throw new Error('Unknown debt payment strategy');
+                        }
+
+                        if (currentDebt < 0) {
+                            currentInvestments -= currentDebt;
+                            currentDebt = 0;
+                        }
+                    }
+
+                    const fireIndex = data.map(x => !!x['fire']).indexOf(true);
+
+                    const tooltip = x =>
+                        `${x['date']}\n` +
+                        `${Formatter.price(x['networth'])} Net Worth\n` +
+                        `${Formatter.price(x['investments'])} Investments\n` +
+                        `${Formatter.price(x['debt'])} Debt`;
+
+                    const dataTable = new google.visualization.DataTable();
+                    dataTable.addColumn({ label: 'Time', type: 'string' });
+                    // dataTable.addColumn({ label: 'Month', type: 'number' });
+                    dataTable.addColumn({ type: 'string', role: 'annotation' });
+                    dataTable.addColumn({ label: 'Net Worth', type: 'number' });
+                    dataTable.addColumn({ type: 'string', role: 'tooltip' });
+                    dataTable.addRows(data
+                        .slice(0, fireIndex + 36)
+                        .map(x => [x['xlabel'], x['annotation'], x['networth'], tooltip(x)]));
+
+                    const chartObject = new google.visualization.AreaChart(chartElem);
+                    chartObject.draw(dataTable, Object.assign({}, GOOGLE_CHARTS_CONFIG, {
+                        title: `🔥 with FinMango`,
+                        curveType: 'function',
+                        series: [{ 'color': '#757575' }],
+                        intervals: { 'style': 'area' },
+                        vAxis: { textPosition: 'out' },
+                        interpolateNulls: true,
+                        annotations: {
+                            style: 'line'
+                        },
+                    }));
+                }).init();
+        })();
+    </script>
+</div>
